@@ -1,0 +1,51 @@
+﻿@model IEnumerable<MvcApiConciertos.Models.Eventos>
+
+@{
+    ViewData["Title"] = "Eventos";
+}
+
+<h1>Eventos</h1>
+
+<a class="btn btn-success" asp-area="" asp-controller="Conciertos" asp-action="Create">Crear Evento</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Artista)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCategoria)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Imagen)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Artista)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCategoria)
+            </td>
+            <td>
+                <img src="@Html.DisplayFor(modelItem => item.Imagen)" width="150"/>
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
