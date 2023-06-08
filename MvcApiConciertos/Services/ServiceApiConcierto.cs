@@ -1,4 +1,5 @@
-﻿using MvcApiConciertos.Models;
+﻿using MvcApiConciertos.Helpers;
+using MvcApiConciertos.Models;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,12 +11,13 @@ namespace MvcApiConciertos.Services
         private MediaTypeWithQualityHeaderValue Header;
         private string UrlApi;
 
+
         public ServiceApiConcierto(IConfiguration configuration)
         {
             this.Header =
                 new MediaTypeWithQualityHeaderValue("application/json");
             this.UrlApi =
-                configuration.GetValue<string>("ApiUrls:ApiConciertos");
+                HelperSecretManager.GetSecretAsync("apimysql").Result;
         }
 
         private async Task<T> CallApiAsync<T>(string request)
@@ -60,13 +62,21 @@ namespace MvcApiConciertos.Services
             return eventos;
         }
 
-        public async Task CreateEventoAsync(Eventos evento)
+        public async Task CreateEventoAsync(string nombre,string artista,int idcategoria,string imagen)
         {
             using (HttpClient client = new HttpClient())
             {
                 string request = "api/Conciertos";
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Accept.Add(this.Header);
+                Eventos evento = new Eventos
+                {
+                    Nombre= nombre,
+                    Artista= artista,
+                    IdCategoria= idcategoria,
+                    Imagen = imagen
+
+                };
                 string jsonComic = JsonConvert.SerializeObject(evento);
                 StringContent content =
                     new StringContent(jsonComic, Encoding.UTF8, "application/json");

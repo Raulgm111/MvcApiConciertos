@@ -1,8 +1,15 @@
+using Amazon.S3;
+using Microsoft.Extensions.DependencyInjection;
+using MvcApiConciertos.Helpers;
+using MvcApiConciertos.Models;
 using MvcApiConciertos.Services;
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddAWSService<IAmazonS3>();
+builder.Services.AddTransient<ServiceStorageS3>();
 builder.Services.AddTransient<ServiceApiConcierto>();
 builder.Services.AddControllersWithViews();
 
